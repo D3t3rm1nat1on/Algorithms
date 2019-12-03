@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Algorithms
 {
@@ -6,7 +7,8 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(MyAlgorithms.ExpandedForm(123));
+            List<string> list = new List<string>();
+            Console.WriteLine(MyAlgorithms.formatDuration(3662));
         }
     }
 }
