@@ -44,7 +44,7 @@ namespace Algorithms
             return string.Join(" + ", res.Trim().Split());
         }
 
-        public static string formatDuration(int seconds)
+        public static string FormatDuration(int seconds)
         {
             var result = new List<string>();
             var minutes = TimeSpan.FromSeconds(seconds).Minutes;
@@ -52,19 +52,49 @@ namespace Algorithms
             var days = TimeSpan.FromSeconds(seconds).Days % 365;
             var years = TimeSpan.FromSeconds(seconds).Days / 365;
             seconds %= 60;
-            
+
             if (years > 0) result.Add(years == 1 ? "1 year" : $"{years} years");
             if (days > 0) result.Add(days == 1 ? "1 day" : $"{days} days");
             if (hours > 0) result.Add(hours == 1 ? "1 hour" : $"{hours} hours");
             if (minutes > 0) result.Add(minutes == 1 ? "1 minute" : $"{minutes} minutes");
             if (seconds > 0) result.Add(seconds == 1 ? "1 second" : $"{seconds} seconds");
-            
+
             var count = result.Count;
             if (count == 0) return "now";
             if (count <= 1) return string.Join(", ", result);
             result[count - 2] += $" and {result.Last()}";
             result.RemoveAt(count - 1);
             return string.Join(", ", result);
+        }
+
+        public static List<string> SinglePermutations(string s)
+        {
+            void Perm(bool[] check, string word, string newWord, List<string> list)
+            {
+                var newCheck = (bool[]) check.Clone();
+                for (int i = 0; i < s.Length; i++)
+                {
+                    if (newCheck[i])
+                        continue;
+                    newCheck[i] = true;
+                    Perm(newCheck, word, newWord + word[i], list);
+                    newCheck[i] = false;
+
+                }
+
+                if (!newCheck.Contains(false))
+                    list.Add(newWord);
+            }
+
+            bool[] checking = new bool[s.Length];
+            for (int i = 0; i < s.Length; i++)
+                checking[i] = false;
+
+            List<string> result = new List<string>();
+
+            Perm(checking, s, null, result);
+
+            return result.Distinct().ToList();
         }
     }
 }
