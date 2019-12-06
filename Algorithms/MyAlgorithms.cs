@@ -96,5 +96,20 @@ namespace Algorithms
 
             return result.Distinct().ToList();
         }
+
+        public static int Score(int[] dice)
+        {
+            int score = 0;
+            int[] triple =  {0, 1000, 200, 300, 400, 500, 600};
+            int[] single =  {0, 100, 0, 0, 0, 50, 0};
+            
+            for (int i = 1; i <= 6; i++)
+            {
+                int count = dice.Count(j => j == i);
+                score += single[i] * (count % 3) + triple[i] * (count / 3);                
+            }
+            
+            return score;
+        }
     }
 }

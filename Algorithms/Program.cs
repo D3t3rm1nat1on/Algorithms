@@ -8,14 +8,9 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-            
-            List<string> list = new List<string>();
-            Console.WriteLine(MyAlgorithms.FormatDuration(3662));
-            foreach (var l in MyAlgorithms.SinglePermutations("aabb"))
-            {
-                Console.WriteLine(l);
-            }
-            
+
+            int[] rolls = {1,2,3,4,5};
+            Console.WriteLine(MyAlgorithms.Score(rolls));
         }
     }
 }
