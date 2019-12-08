@@ -116,13 +116,34 @@ namespace Algorithms
         public static int LongestSlideDown(int[][] pyramid)
         {
             int result = 0;
+            int[][] longestPath = new int[pyramid.Length][];
 
-            int Dijkstra(int y, int x)
+            for (int i = 0; i < pyramid.Length; i++)
             {
-                
-                return 0;
+                longestPath[i] = (int[]) pyramid[i].Clone();
             }
 
+            void Dijkstra(int y, int x, int path)
+            {
+                path += pyramid[y][x];
+
+                if (path < longestPath[y][x])
+                    return;
+                
+                longestPath[y][x] = path;
+                
+                if (path > result)
+                    result = path;
+                
+                if (y == pyramid.Length - 1) 
+                    return;
+                
+                Dijkstra(y + 1, x, path);
+                Dijkstra(y + 1, x + 1, path);
+            }
+
+            Dijkstra(0, 0, 0);
+            
             return result;
         }
         
