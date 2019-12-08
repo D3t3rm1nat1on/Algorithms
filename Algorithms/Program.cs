@@ -8,9 +8,7 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-
-            int[] rolls = {1,2,3,4,5};
-            Console.WriteLine(MyAlgorithms.Score(rolls));
+            Console.WriteLine(MyAlgorithms.going(7));
         }
     }
 }

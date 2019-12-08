@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
 
 namespace Algorithms
 {
@@ -111,5 +112,19 @@ namespace Algorithms
             
             return score;
         }
+        
+        public static int LongestSlideDown(int[][] pyramid)
+        {
+            int result = 0;
+
+            int Dijkstra(int y, int x)
+            {
+                
+                return 0;
+            }
+
+            return result;
+        }
+        
     }
 }
