@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text.RegularExpressions;
-using System.Threading.Channels;
 
 namespace Algorithms
 {
@@ -101,18 +101,18 @@ namespace Algorithms
         public static int Score(int[] dice)
         {
             int score = 0;
-            int[] triple =  {0, 1000, 200, 300, 400, 500, 600};
-            int[] single =  {0, 100, 0, 0, 0, 50, 0};
-            
+            int[] triple = {0, 1000, 200, 300, 400, 500, 600};
+            int[] single = {0, 100, 0, 0, 0, 50, 0};
+
             for (int i = 1; i <= 6; i++)
             {
                 int count = dice.Count(j => j == i);
-                score += single[i] * (count % 3) + triple[i] * (count / 3);                
+                score += single[i] * (count % 3) + triple[i] * (count / 3);
             }
-            
+
             return score;
         }
-        
+
         public static int LongestSlideDown(int[][] pyramid)
         {
             int result = 0;
@@ -125,27 +125,121 @@ namespace Algorithms
 
             void Dijkstra(int y, int x, int path)
             {
+//                for (var i = pyramid.Length - 1; i > 0; i--)
+//                for (var k = 0; k < pyramid[i].Length - 1; k++)
+//                    pyramid[i - 1][k] += System.Math.Max(pyramid[i][k], pyramid[i][k + 1]);
+//
+//                return pyramid[0][0];
                 path += pyramid[y][x];
 
                 if (path < longestPath[y][x])
                     return;
-                
+
                 longestPath[y][x] = path;
-                
+
                 if (path > result)
                     result = path;
-                
-                if (y == pyramid.Length - 1) 
+
+                if (y == pyramid.Length - 1)
                     return;
-                
+
                 Dijkstra(y + 1, x, path);
                 Dijkstra(y + 1, x + 1, path);
             }
 
             Dijkstra(0, 0, 0);
-            
+
             return result;
         }
-        
+
+        struct Value
+        {
+            public BigInteger Inc;
+            public BigInteger Dec;
+
+            public Value(BigInteger Inc, BigInteger Dec)
+            {
+                this.Inc = Inc;
+                this.Dec = Dec;
+            }
+
+            public void Increase(BigInteger Inc)
+            {
+                this.Inc += Inc;
+            }
+
+            public void Decrease(BigInteger Dec)
+            {
+                this.Dec += Dec;
+            }
+        }
+
+        public static BigInteger TotalIncDec(int x)
+        {
+            List<List<Value>> list = new List<List<Value>>();
+            list.Add(new List<Value>() {new Value(1, 1)});
+
+            List<Value> temp1 = new List<Value>();
+            temp1.Add(new Value(1, 1));
+            for (int i = 1; i < 10; i++)
+            {
+                temp1.Add(new Value(0, 1));
+            }
+
+            list.Add(temp1);
+
+            List<Value> temp2 = new List<Value>();
+            for (int i = 0; i < 10; i++)
+            {
+                temp2.Add(new Value(10 - i, 1 + i));
+            }
+
+            list.Add(temp2);
+
+            BigInteger result = 100;
+
+            for (int i = 3; i <= x; i++)
+            {
+                List<Value> temp = new List<Value>();
+                temp.Add(new Value(result, 1));
+                for (int j = 1; j < 10; j++)
+                {
+                    Value value = new Value();
+                    for (int k = j; k < 10; k++)
+                    {
+                        value.Increase(list[i - 1][k].Inc);
+                    }
+
+                    for (int k = j; k >= 0; k--)
+                    {
+                        value.Decrease(list[i - 1][k].Dec);
+                    }
+
+                    temp.Add(value);
+                }
+
+                list.Add(temp);
+                result = 0;
+                foreach (var value in temp)
+                {
+                    result += value.Dec + value.Inc;
+                }
+            }
+
+            result = 0;
+            foreach (var value in list[x])
+            {
+                result += value.Dec + value.Inc;
+            }
+
+            if (x < 2)
+                result -= 1;
+            else if (x < 4)
+                result -= 10;
+            else
+                result -= 10 * (x - 2);
+
+            return result;
+        }
     }
 }
