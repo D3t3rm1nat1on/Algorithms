@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 namespace Algorithms
@@ -240,6 +241,34 @@ namespace Algorithms
                 result -= 10 * (x - 2);
 
             return result;
+        }
+
+
+        public static bool ValidateSolution(int[][] board)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                List<int> block = new List<int>();
+                int column = i % 3;
+                int row = i / 3;
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        block.Add(board[column * 3 + j][row * 3 + k]);
+                    }
+                }
+
+                var vertical = board.Select((ints) => ints[i]);
+                for (int j = 0; j < 9; j++)
+                {
+                    if (board[i].Count(i1 => i1 == j + 1) != 1 ||
+                        vertical.Count(i1 => i1 == +1) != 1 ||
+                        block.Count(i1 => i1 == j + 1) != 1)
+                        return false;
+                }
+            }
+            return true;
         }
     }
 }
