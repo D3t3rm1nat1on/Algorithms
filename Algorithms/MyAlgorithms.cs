@@ -243,7 +243,6 @@ namespace Algorithms
             return result;
         }
 
-
         public static bool ValidateSolution(int[][] board)
         {
             for (int i = 0; i < 9; i++)
@@ -268,7 +267,136 @@ namespace Algorithms
                         return false;
                 }
             }
+
             return true;
+        }
+
+        public static bool ValidateBattlefield(int[,] field)
+        {
+
+            int[] ships = new[] {4, 3, 2, 1};
+            bool[,] checkField = new bool[10, 10];
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (field[i, j] == 1 && !checkField[i, j])
+                    {
+                        int value = CheckingShip(i, j);
+                        if (value >= 0 && value < 4)
+                        {
+                            if (--ships[value] < 0)
+                                return false;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+
+                    }
+                }
+            }
+
+            if (ships.Any(i => i > 0))
+                return false;
+            return true;
+
+            int CheckingShip(int i, int j)
+            {
+                bool down = false, right = false;
+                int counter = 0;
+
+
+                if (i != 9)
+                {
+                    if (field[i + 1, j] == 1 && !checkField[i + 1, j])
+                    {
+                        down = true;
+                    }
+                }
+
+                if (j != 9)
+                {
+                    if (field[i, j + 1] == 1 && !checkField[i, j + 1])
+                    {
+                        right = true;
+                    }
+                }
+
+                if (right && down)
+                    return -1;
+
+                if (i < 9)
+                {
+                    bool check = false;
+                    if (j > 0)
+                    {
+                        check = field[i + 1, j - 1] == 1;
+                    }
+
+                    if (j < 9)
+                    {
+                        check = check || field[i + 1, j + 1] == 1;
+                    }
+                    
+                    if (check)
+                    {
+                        return -100;
+                    }
+                }
+
+                if (down)
+                {
+                    counter += CheckingShipDown(i, j);
+                }
+
+                if (right)
+                {
+                    counter += CheckingShipRight(i, j);
+                }
+
+                return counter;
+            }
+
+            int CheckingShipRight(int i, int j)
+            {
+                if ((i > 0 && field[i - 1, j] == 1) ||
+                    (i < 9 && field[i + 1, j] == 1) ||
+                    (j < 9 && field[i + 1, j + 1] == 1))
+                    return -100;
+
+                checkField[i, j] = true;
+                return j < 9 && field[i, j + 1] == 1 ? CheckingShipRight(i, j + 1) + 1 : 0;
+            }
+
+            int CheckingShipDown(int i, int j)
+            {
+                if ((j > 0 && field[i, j - 1] == 1) ||
+                    (j < 9 && field[i, j + 1] == 1))
+                    return -100;
+
+                if (i < 9)
+                {
+                    bool check = false;
+                    if (j > 0)
+                    {
+                        check = field[i + 1, j - 1] == 1;
+                    }
+
+                    if (j < 9)
+                    {
+                        check = check || field[i + 1, j + 1] == 1;
+                    }
+                    
+                    if (check)
+                    {
+                        return -100;
+                    }
+                }
+                
+                checkField[i, j] = true;
+                return i < 9 && field[i + 1, j] == 1 ? CheckingShipDown(i + 1, j) + 1 : 0;
+            }
         }
     }
 }
