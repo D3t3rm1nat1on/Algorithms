@@ -12,21 +12,27 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            int[,] field = new int[10, 10]
+            int[][] array =
             {
-                {1, 0, 0, 0, 0, 1, 1, 0, 0, 0},
-                {1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-                {1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-                {0, 0, 0, 0, 1, 1, 1, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+                new []{1, 2, 3},
+                new []{4, 5, 6},
+                new []{7, 8, 9}
             };
 
-            Console.WriteLine(MyAlgorithms.ValidateBattlefield(field));
+            int[][] empty =
+            {
+                
+            };
+
+            var newArray = MyAlgorithms.Snail(empty);
+            
+            foreach (var i in newArray)
+            {
+                Console.Write($"{i} ");
+            }
+
+            Console.WriteLine();
+
         }
         
     }

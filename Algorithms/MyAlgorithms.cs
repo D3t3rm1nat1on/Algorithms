@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 namespace Algorithms
@@ -338,7 +337,7 @@ namespace Algorithms
                     {
                         check = check || field[i + 1, j + 1] == 1;
                     }
-                    
+
                     if (check)
                     {
                         return -100;
@@ -387,16 +386,65 @@ namespace Algorithms
                     {
                         check = check || field[i + 1, j + 1] == 1;
                     }
-                    
+
                     if (check)
                     {
                         return -100;
                     }
                 }
-                
+
                 checkField[i, j] = true;
                 return i < 9 && field[i + 1, j] == 1 ? CheckingShipDown(i + 1, j) + 1 : 0;
             }
+        }
+
+        public static int[] Snail(int[][] array)
+        {
+            var result = new List<int>();
+            var size = array[0].Length;
+            var check = new bool[size, size];
+            var (x, y) = (x: 0, y: 0);
+
+            var a = new[] {Array.Empty<int>()};
+            
+            if (size == 0)
+                return new int[0];
+
+            while (CanGoRight())
+            {
+                Check();
+                x++;
+                while (!CanGoRight() && CanGoDown())
+                {
+                    Check();
+                    y++;
+                    while (!CanGoDown() && CanGoLeft())
+                    {
+                        Check();
+                        x--;
+                        while (!CanGoLeft() && CanGoUp())
+                        {
+                            Check();
+                            y--;
+                        }
+                    }
+                }
+            }
+
+            Check();
+
+            bool CanGoRight() => x + 1 < size && !check[y, x + 1];
+            bool CanGoDown() => y + 1 < size && !check[y + 1, x];
+            bool CanGoLeft() => x > 0 && !check[y, x - 1];
+            bool CanGoUp() => y > 0 && !check[y - 1, x];
+
+            void Check()
+            {
+                check[y, x] = true;
+                result.Add(array[y][x]);
+            }
+
+            return result.ToArray();
         }
     }
 }
