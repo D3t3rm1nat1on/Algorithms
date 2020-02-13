@@ -268,7 +268,38 @@ namespace Algorithms
                         return false;
                 }
             }
+
             return true;
         }
+
+        public static List<string> BalancedParens(int n)
+        {
+            if (n == 0)
+                return new List<string>() {""};
+
+            List<string> result = new List<string>();
+
+            Function("(", n - 1, n, 1);
+
+            return result;
+
+            void Function(string str, int countOpen, int countClose, int needToClose)
+            {
+                if (countClose + countOpen > 0)
+                {
+                    if (countClose > 0 && needToClose > 0)
+                        Function(str + ")", countOpen, countClose - 1, needToClose - 1);
+                    
+                    if (countOpen > 0)
+                        Function(str + "(", countOpen - 1, countClose, needToClose + 1);
+                }
+                else
+                {
+                    result.Add(str);
+                }
+                
+            }
+        }
     }
+
 }
