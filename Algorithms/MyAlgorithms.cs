@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Reflection.Emit;
 using System.Text.RegularExpressions;
 
 namespace Algorithms
@@ -178,7 +177,7 @@ namespace Algorithms
         public static BigInteger TotalIncDec(int x)
         {
             List<List<Value>> list = new List<List<Value>>();
-            list.Add(new List<Value>() {new Value(1, 1)});
+            list.Add(new List<Value> {new Value(1, 1)});
 
             List<Value> temp1 = new List<Value>();
             temp1.Add(new Value(1, 1));
@@ -259,7 +258,7 @@ namespace Algorithms
                     }
                 }
 
-                var vertical = board.Select((ints) => ints[i]);
+                var vertical = board.Select(ints => ints[i]);
                 for (int j = 0; j < 9; j++)
                 {
                     if (board[i].Count(i1 => i1 == j + 1) != 1 ||
@@ -275,7 +274,7 @@ namespace Algorithms
         public static List<string> BalancedParens(int n)
         {
             if (n == 0)
-                return new List<string>() {""};
+                return new List<string> {""};
 
             List<string> result = new List<string>();
 
@@ -289,7 +288,7 @@ namespace Algorithms
                 {
                     if (countClose > 0 && needToClose > 0)
                         Function(str + ")", countOpen, countClose - 1, needToClose - 1);
-                    
+
                     if (countOpen > 0)
                         Function(str + "(", countOpen - 1, countClose, needToClose + 1);
                 }
@@ -297,8 +296,43 @@ namespace Algorithms
                 {
                     result.Add(str);
                 }
-                
+
             }
+        }
+
+        public static List<string> GetPINs(string observed)
+        {
+            var ableNumbers = new Dictionary<char, string[]>
+            {
+                {'0', new[] {"0", "8"}},
+                {'1', new[] {"1", "2", "4"}},
+                {'2', new[] {"1", "2", "3", "5"}},
+                {'3', new[] {"2", "3", "6"}},
+                {'4', new[] {"1", "4", "5", "7"}},
+                {'5', new[] {"2", "4", "5", "6", "8"}},
+                {'6', new[] {"3", "5", "6", "9"}},
+                {'7', new[] {"4", "7", "8"}},
+                {'8', new[] {"5", "7", "8", "9", "0"}},
+                {'9', new[] {"6", "8", "9"}}
+            };
+
+            var result = new List<string> {""};
+            foreach (var number in observed)
+            {
+                var temp = new List<string>();
+                var ables = ableNumbers[number];
+                foreach (var code in result)
+                {
+                    foreach (var able in ables)
+                    {
+                        temp.Add(code + able);
+                    }
+                }
+
+                result = temp;
+            }
+            
+            return result;
         }
     }
 

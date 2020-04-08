@@ -10,18 +10,10 @@ namespace Algorithms
     class Program
     {
 
-        struct MyStruct
-        {
-            public int A;
-        }
-
         static void Main(string[] args)
         {
-            var list = MyAlgorithms.BalancedParens(5);
-            foreach (var value in list)
-            {
-                Console.WriteLine(value);
-            }
+            var temp = MyAlgorithms.GetPINs("369");
+            Console.WriteLine(string.Join(' ', temp));
         }
     }
 }
