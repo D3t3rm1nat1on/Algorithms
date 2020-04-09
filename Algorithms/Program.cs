@@ -12,8 +12,7 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            var temp = MyAlgorithms.GetPINs("369");
-            Console.WriteLine(string.Join(' ', temp));
+            Console.WriteLine(MyAlgorithms.sumStrings("","123"));
         }
     }
 }

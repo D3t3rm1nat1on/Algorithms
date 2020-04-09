@@ -334,6 +334,13 @@ namespace Algorithms
             
             return result;
         }
+        
+        public static string sumStrings(string a, string b)
+        {
+            BigInteger.TryParse(a, out var na);
+            BigInteger.TryParse(b, out var nb);
+            return (na + nb).ToString();
+        }
     }
 
 }
