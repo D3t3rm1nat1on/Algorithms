@@ -331,16 +331,44 @@ namespace Algorithms
 
                 result = temp;
             }
-            
+
             return result;
         }
-        
+
         public static string sumStrings(string a, string b)
         {
             BigInteger.TryParse(a, out var na);
             BigInteger.TryParse(b, out var nb);
             return (na + nb).ToString();
         }
-    }
 
+        public static long NextSmaller(long n)
+        {
+            string number = n.ToString();
+            var ables = new List<char> {number.Last()};
+            int replaceLeftIdx = number.Length - 2;
+            while (replaceLeftIdx >= 0)
+            {
+                char replaceLeft = number[replaceLeftIdx];
+                var less = ables.Where(c => c < replaceLeft).ToList();
+                if (less.Any())
+                {
+                    var replaceRight = less.Max();
+                    ables.Remove(replaceRight);
+                    ables.Add(replaceLeft);
+                    var ordered = ables.OrderByDescending(c => c);
+                    var result = number.Substring(0, replaceLeftIdx) + replaceRight + string.Join("", ordered);
+                    if (result[0] == '0')
+                        return -1;
+                    return long.Parse(result);
+                }
+
+                ables.Add(replaceLeft);
+                replaceLeftIdx--;
+            }
+
+            return -1;
+        }
+
+    }
 }

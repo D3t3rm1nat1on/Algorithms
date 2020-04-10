@@ -12,7 +12,7 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            Console.WriteLine(MyAlgorithms.sumStrings("","123"));
+            Console.WriteLine(MyAlgorithms.NextSmaller(315));
         }
     }
 }
